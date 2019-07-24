@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% include 'navbar.html' %}
+
+ {% load staticfiles %}
+
+<body style="background-color:#B9A9E6">
+{% block content %}
+<div class="container">
+</div>
+<center>
+  <h1 style="margin-top: 50; font-family: initial">Log In To My Application</h1>
+  {% if form.errors %}
+    <p style="color: red">Your username or password didn't match. Please try again.</p>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden"  name="next" value="{{ next }}" style="width: 250"/>
+    {% for field in form %}
+      <p style="margin-top: 50; font-family: initial">
+        {{ field.label_tag }}
+        {{ field }}<br>
+        {% for error in field.errors %}
+          <p style="color: red" style="margin-top: 50; font-family: initial">{{ error }}</p>
+        {% endfor %}
+        {% if field.help_text %}
+          <p style="margin-top: 50"><small style="color: grey">{{ field.help_text }}</small></p>
+        {% endif %}
+      </p>
+    {% endfor %}
+    <button type="submit" style="margin-top: 20px; border-radius: 5px">Log In</button>
+    <br>
+    <br>
+    <a href="{% url 'signup' %}" style="color:#007B9F">New to My Application? Sign up</a>
+  </form>
+  </center>
+</div>
+{% endblock %}
+</body>

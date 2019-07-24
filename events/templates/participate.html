@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Participate
+{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="center">Welcome, {{ user.username }}! </h1>
+      <h3 class="center">You have selected the event {{ event.event_name }}</h3>
+    <br>
+      <div>
+    <p class="center">Enter team details to participate...</p>
+
+      </div>
+  </div>
+{% endblock content %}

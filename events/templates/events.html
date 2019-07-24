@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title%}
+  Events Index
+{% endblock %}
+
+{% block content%}
+<h2>Welcome, {{ user.username }}!</h2>
+<h4>Upcoming Events...</h4>
+<br>
+  {% if events_list %}
+  <ul>
+    {% for event in events_list %}
+      <li>
+        <a href="/events/{{ event.id }}">{{ event.event_name }}, {{ event.location }}</a>
+        {{ event.date }}.
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no upcoming events.</p>
+  {% endif %}
+{% endblock %}

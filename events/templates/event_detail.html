@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Event Details</h1>
+<form method="post" action="/participate/">
+<h2>{{ event_detail.event_name }}</h2>
+<br>
+  <p><strong>Add list view of participating teams:</strong> <a href=""></a></p> <!-- participating teams list view link not yet defined -->
+
+  <p><strong>Location:</strong> {{ event_detail.location }}</p>
+  <p><strong>Date:</strong> {{ event_detail.date }}</p>
+  {% csrf_token %}
+<button type="submit">Participate</button>
+</form>
+{% endblock %}
