@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
-from events.forms import EventForm, ParticipationForm
+from events.forms import ParticipationForm
 from events.models import Event
 from django.views.generic import ListView, DetailView
 
@@ -48,9 +48,6 @@ class EventDetailView(DetailView):
     context_object_name = 'event_detail'
     template_name = 'event_detail.html'
 
-
-    #
-    #
     def get_context_data(self, **kwargs):
         context = super(EventDetailView, self).get_context_data(**kwargs)
         # context['event'] = self.get_object()
@@ -66,35 +63,39 @@ class EventDetailView(DetailView):
 
 class ParticipationView(View):
 
-    def get(self, request):
-        form = ParticipationForm(request.GET)
-        user = request.user
-        event_id = request.session['event_id']
-        event = Event.objects.get(pk=event_id)
-
-        return render(request, 'participate.html', {'form': form, 'user': user, 'event': event})
+    # def get(self, request):
+    #     form = ParticipationForm(request.GET)
+    #     event_id = request.session['event_id']
+    #     event = Event.objects.get(pk=event_id)
+    #     print('Participation form opened using GET request')
+    #     print('Printing the user... ', request.user)
+    #     print('Printing the Event name... ', event.event_name)
+    #
+    #     return render(request, 'participate.html', {'form': form, 'event': event})
 
     def post(self, request):
-        print('Inside Participate view...')
-        user = request.user
-        print(user)
+        form = ParticipationForm(request.GET)
+        print('Printing the empty form data from get...\n', form.data)
+
+        form = ParticipationForm(request.POST)
+        print('Participation form with POST request data...\n', form.data)
+
         event_id = request.session['event_id']
         event = Event.objects.get(pk=event_id)
-        print(event)
-        print(event.event_name)
 
-        # form = ParticipationForm(request.POST)
-        # print('Printing the current user... ', user)
-        # if form.is_valid():
-        #     print('Form is valid. Saving form...')
-        #     try:
-        #         form.save()
-        #         print("The team was saved in the database")
-        #         return render(request, 'add_members.html', {'event': event, 'user': user})
-        #     except:
-        #         print("The team did not save in the database")
-        #         pass
-        # else:
-        #     form = ParticipateForm()
-        #     return render(request, 'participate.html', {'form': form, 'event': event})
-        return render(request, 'participate.html', {'event': event})
+        if form.is_valid():
+            print("Form is valid")
+            try:
+                obj = form.save(commit=False)
+                obj.event = event
+                obj.save()
+                print("The participating team was saved in the database")
+
+                return redirect('/add_members')
+            except:
+                    print("The participating team did not save in the database")
+                    pass
+        else:
+            form = ParticipationForm()
+
+        return render(request, 'participate.html', {'form': form, 'event': event})

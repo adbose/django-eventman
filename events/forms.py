@@ -1,16 +1,5 @@
 from django import forms
-from events.models import Event, Team
-
-
-class EventForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super(EventForm, self).__init__(*args, **kwargs)
-    #     self.fields['user'].required = False
-    #     self.fields['result'].required = False
-
-    class Meta:
-        model = Event
-        fields = ['event_name']
+from events.models import Team
 
 
 class ParticipationForm(forms.ModelForm):
@@ -20,4 +9,4 @@ class ParticipationForm(forms.ModelForm):
 
     class Meta:
         model = Team
-        fields = ['team_name']
+        fields = "__all__"

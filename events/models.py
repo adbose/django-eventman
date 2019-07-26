@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Event(models.Model):
-    event_name = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
+    event_name = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
     date = models.DateField()
 
     class Meta:
@@ -16,7 +16,7 @@ class Event(models.Model):
 
 class Team(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE,)
-    team_name = models.CharField(max_length=200)
+    team_name = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'team'

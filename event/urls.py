@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf.urls import url
 from events import views
 from django.contrib.auth import views as auth_views
-# from events.views import Signup, EventsListView
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^events/$', views.EventsListView.as_view(), name='events'),
     path('events/<int:pk>/', views.EventDetailView.as_view(), name='event-details'),
     path('participate/', views.ParticipationView.as_view(), name='participate'),
+    path('add_members/', TemplateView.as_view(template_name='add_members.html'), name='add-members'),
 ]
